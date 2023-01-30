@@ -48,7 +48,7 @@ namespace PortfolioTracker.Migrations
 
                     b.HasIndex("PortfolioId");
 
-                    b.ToTable("Coins");
+                    b.ToTable("coins");
                 });
 
             modelBuilder.Entity("PortfolioTracker.Models.Portfolio", b =>
@@ -57,11 +57,11 @@ namespace PortfolioTracker.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("PortfolioName")
+                    b.Property<string>("portfolioName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("TotalBalance")
+                    b.Property<decimal>("totalBalance")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("UserName")
@@ -139,7 +139,7 @@ namespace PortfolioTracker.Migrations
             modelBuilder.Entity("PortfolioTracker.Models.Coin", b =>
                 {
                     b.HasOne("PortfolioTracker.Models.Portfolio", "Portfolio")
-                        .WithMany("Coins")
+                        .WithMany("coins")
                         .HasForeignKey("PortfolioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -176,7 +176,7 @@ namespace PortfolioTracker.Migrations
 
             modelBuilder.Entity("PortfolioTracker.Models.Portfolio", b =>
                 {
-                    b.Navigation("Coins");
+                    b.Navigation("coins");
                 });
 
             modelBuilder.Entity("PortfolioTracker.Models.User", b =>

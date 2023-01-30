@@ -46,7 +46,7 @@ namespace PortfolioTracker.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTransaction(Guid id, Transaction transaction)
         {
-            if (id != transaction.Id)
+            if (id != transaction.TransactionId)
             {
                 return BadRequest();
             }
@@ -80,7 +80,7 @@ namespace PortfolioTracker.Controllers
             _context.Transactions.Add(transaction);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTransaction", new { id = transaction.Id }, transaction);
+            return CreatedAtAction("GetTransaction", new { id = transaction.TransactionId}, transaction);
         }
 
         // DELETE: api/Transactions/5
@@ -101,7 +101,7 @@ namespace PortfolioTracker.Controllers
 
         private bool TransactionExists(Guid id)
         {
-            return _context.Transactions.Any(e => e.Id == id);
+            return _context.Transactions.Any(e => e.TransactionId == id);
         }
     }
 }

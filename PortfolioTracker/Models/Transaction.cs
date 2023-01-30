@@ -7,15 +7,16 @@ namespace PortfolioTracker.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        public Guid TransactionId { get; set; }
         public string TransactionType { get; set; }
         public decimal PricePerCoin { get; set; }
         public int Quantity { get; set; }
         public DateTime Date { get; set; }
         public decimal TotalSpent { get; set; }
         public decimal Fees { get; set; }
-        public Guid CoinId { get; set; }
-        [ForeignKey("CoinId")]
-        public Coin Coin { get; set; }
+        [ForeignKey("Coin")]
+        public Guid? CoinId { get; set; }
+      
+        public virtual Coin? Coin { get; set; }
     }
 }

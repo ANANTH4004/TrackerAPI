@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,12 +10,14 @@ using PortfolioTracker.Models;
 
 namespace PortfolioTracker.Controllers
 {
+    /// <summary>
+    /// [Authorize]
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
         private readonly TrackerContext _context;
-
         public UsersController(TrackerContext context)
         {
             _context = context;
@@ -26,7 +29,6 @@ namespace PortfolioTracker.Controllers
         {
             return await _context.Users.ToListAsync();
         }
-
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(string id)

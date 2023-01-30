@@ -46,7 +46,7 @@ namespace PortfolioTracker.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Coins",
+                name: "coins",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -85,14 +85,14 @@ namespace PortfolioTracker.Migrations
                     table.ForeignKey(
                         name: "FK_Transactions_Coins_CoinId",
                         column: x => x.CoinId,
-                        principalTable: "Coins",
+                        principalTable: "coins",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Coins_PortfolioId",
-                table: "Coins",
+                table: "coins",
                 column: "PortfolioId");
 
             migrationBuilder.CreateIndex(
@@ -113,7 +113,7 @@ namespace PortfolioTracker.Migrations
                 name: "Transactions");
 
             migrationBuilder.DropTable(
-                name: "Coins");
+                name: "coins");
 
             migrationBuilder.DropTable(
                 name: "Portfolios");

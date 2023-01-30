@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using PortfolioTracker.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+
 
 namespace PortfolioTracker.Controllers
 {
@@ -68,16 +70,30 @@ namespace PortfolioTracker.Controllers
                     user.PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(model.Password));
                     user.Email = model.Email;
                     user.MobileNo = model.MobileNo;
+                    var port =  new Portfolio()
+                    {
+                        portfolioName = "My Portfolio", coins = null, portfpolioId = new Guid(), totalBalance = 0, User = user, UserName = user.UserName
+                    };
+                    user.Portfolios = new List<Portfolio> { port };
+                    _context.Users.Add(user);
+                    _context.Portfolios.Add(port);
+                    _context.SaveChanges();
                 }
             }
             else
             {
                 return BadRequest("Password not Match");
             }
-            _context.Users.Add(user);
-            _context.SaveChanges();
+            JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
 
-            return Ok(user);
+            string json = JsonConvert.SerializeObject(user, jsonSerializerSettings);
+
+
+            return Ok(json);
+
         }
     }
 }

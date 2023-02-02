@@ -103,5 +103,18 @@ namespace PortfolioTracker.Controllers
         {
             return _context.Portfolios.Any(e => e.portfpolioId == id);
         }
+        [HttpGet("userName/{userName}")]
+        public async Task<ActionResult<IEnumerable<Portfolio>>> GetPortfolioU(string userName)
+        {
+            var portfolio = await _context.Portfolios.Where(x => x.UserName == userName).ToListAsync();
+            //var portfolio = await _context.Portfolios.FindAsync(userName);
+
+            if (!portfolio.Any())
+            {
+                return NotFound("User dont have a Portfolio");
+            }
+
+            return portfolio;
+        }
     }
 }

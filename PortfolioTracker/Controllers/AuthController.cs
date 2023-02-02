@@ -44,7 +44,7 @@ namespace PortfolioTracker.Controllers
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var encryptedToken = tokenHandler.WriteToken(token);
-            return Ok(new { token = encryptedToken, userName = user.UserName});
+            return Ok(new { token = encryptedToken,user});
         }
 
         private bool CheckPassword(string password, User user)
@@ -84,6 +84,7 @@ namespace PortfolioTracker.Controllers
             {
                 return BadRequest("Password not Match");
             }
+            // Object Cycle problem
             JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
@@ -94,6 +95,36 @@ namespace PortfolioTracker.Controllers
 
             return Ok(json);
 
+        }
+        [HttpPost("CreatePortfolio")]
+        public async Task<IActionResult> CreatePort([FromBody] Portfolio port1)
+        {
+            Portfolio port = new Portfolio();
+            port.portfpolioId = Guid.NewGuid();
+            port.coins = null;
+            port.totalBalance = 0;
+            port.portfolioName = port1.portfolioName;
+            port.UserName = port1.UserName;
+            var user = await _context.Users.FindAsync(port.UserName);
+            if(user != null)
+            {
+                port.User = user;
+                _context.Portfolios.Add(port);
+               await _context.SaveChangesAsync();
+               JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+
+            string json = JsonConvert.SerializeObject(user, jsonSerializerSettings);
+
+
+            return Ok(json);
+            }
+            else
+            {
+               return BadRequest("User Not Found");
+            }
         }
     }
 }

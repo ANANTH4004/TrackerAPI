@@ -14,7 +14,7 @@ namespace PortfolioTracker.Models
         public virtual ICollection<Coin>? coins { get; set; }
 
         [ForeignKey("User")]
-        public string? UserName { get; set; }
+        public string UserName { get; set; }
         public virtual User? User { get; set; }
 
 

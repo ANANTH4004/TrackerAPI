@@ -11,10 +11,9 @@ namespace PortfolioTracker.Models
         public string CoinName { get; set; }
         public decimal TotalCoins { get; set; }
         public decimal TotalBuyingPrice { get; set; }
-        public virtual ICollection<Transaction>? Transactions { get; set; }
-        [ForeignKey("Portfolio")]
-        public Guid? PortfolioId { get; set; }
-       
+        public Guid PortfolioId { get; set; }
+        [ForeignKey("PortfolioId")]
         public virtual Portfolio? Portfolio { get; set; }
+        public virtual ICollection<Transaction>? Transactions { get; set; }
     }
 }

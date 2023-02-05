@@ -103,5 +103,18 @@ namespace PortfolioTracker.Controllers
         {
             return _context.Coins.Any(e => e.CoinId == id);
         }
+        [HttpGet("Coins/{portfolioId}")]
+        public async Task<ActionResult<IEnumerable<Coin>>> GetPortfolioU(Guid portfolioId)
+        {
+            var coins = await _context.Coins.Where(x => x.PortfolioId == portfolioId).ToListAsync();
+            //var portfolio = await _context.Portfolios.FindAsync(userName);
+
+            if (!coins.Any())
+            {
+                return NotFound("Your Portfolio is Empty ");
+            }
+
+            return coins;
+        }
     }
 }

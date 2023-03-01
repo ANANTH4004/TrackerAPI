@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PortfolioTracker.Models;
 using System.Text;
+using Twilio;
+using Twilio.Clients;
+using TwilioClient = PortfolioTracker.Service.TwilioClient;
 
 string CORSOpenPolicy = "OpenCORSPolicy";
 var builder = WebApplication.CreateBuilder(args);
@@ -47,10 +50,15 @@ builder.Services.AddAuthentication(x =>
     };
 });
 
+
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Twilio Message Service
+builder.Services.AddHttpClient<ITwilioRestClient, TwilioClient>();
 
 var app = builder.Build();
 
